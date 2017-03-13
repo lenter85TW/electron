@@ -24,8 +24,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Created by kimdoeun on 2017. 3. 13..
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MenuButton = function (_Component) {
-    _inherits(MenuButton, _Component);
+var electron = require('electron');
+var ipcRenderer = electron.ipcRenderer;
+
+var MenuButton = function (_React$Component) {
+    _inherits(MenuButton, _React$Component);
 
     function MenuButton(props) {
         _classCallCheck(this, MenuButton);
@@ -37,18 +40,27 @@ var MenuButton = function (_Component) {
     }
 
     _createClass(MenuButton, [{
+        key: 'onBtnClick',
+        value: function onBtnClick() {
+            console.log("onBtnClick");
+            console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
+            /*ipcRenderer.on('pong', function (event, arg){
+               console.log(arg);
+            });*/
+        }
+    }, {
         key: 'render',
         value: function render() {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { onClick: this.onBtnClick },
                 '\uBC84\uD2BC\uC774\uB2E4'
             );
         }
     }]);
 
     return MenuButton;
-}(_react2.default);
+}(_react2.default.Component);
 
 exports.default = MenuButton;

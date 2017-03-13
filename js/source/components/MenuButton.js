@@ -4,10 +4,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Component from 'react';
+const electron = require('electron');
+const ipcRenderer = electron.ipcRenderer;
 
 
-class MenuButton extends Component {
+export default class MenuButton extends React.Component {
         constructor(props) {
             super(props);
             this.state = {
@@ -15,11 +16,18 @@ class MenuButton extends Component {
             }
         }
 
+        onBtnClick() {
+            console.log("onBtnClick");
+            console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
+            /*ipcRenderer.on('pong', function (event, arg){
+               console.log(arg);
+            });*/
+        }
 
         render() {
 
             return (
-                <div>
+                <div onClick={this.onBtnClick}>
                     버튼이다
                 </div>
             );
@@ -28,4 +36,4 @@ class MenuButton extends Component {
 
 }
 
-export default MenuButton;
+
