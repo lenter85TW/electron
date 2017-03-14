@@ -26,6 +26,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var electron = require('electron');
 var ipcRenderer = electron.ipcRenderer;
+var remote = require('electron').remote;
+var main = remote.require('./main.js');
 
 var MenuButton = function (_React$Component) {
     _inherits(MenuButton, _React$Component);
@@ -57,9 +59,11 @@ var MenuButton = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
+            console.log(remote.getGlobal("doeun"));
             ipcRenderer.on('asynchronous-reply', function (event, arg) {
                 console.log("asynchronous-reply 수신");
                 console.log(arg);
+                console.log(remote.getGlobal("doeun"));
             });
         }
     }, {

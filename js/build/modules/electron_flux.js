@@ -1,8 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 /**
  * Created by kimdoeun on 2017. 3. 14..
  */
@@ -27,10 +24,11 @@ exports.sum2 = function (a, b) {
 };
 
 //안됨
-var test = {
-    sum: function sum(a, b) {
-        return a + b;
+/*const test = {
+
+    sum(a, b) {
+        return a+b;
     }
 };
 
-exports.default = test;
+export default test;*/

@@ -6,6 +6,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
+const remote = require('electron').remote;
+const main = remote.require('./main.js');
 
 
 export default class MenuButton extends React.Component {
@@ -29,9 +31,11 @@ export default class MenuButton extends React.Component {
     }
 
     componentDidMount(){
+        console.log(remote.getGlobal("doeun")); //처음 기본적으로 저장된 글로벌 객체의 doeun 프로퍼티 내용을 출력
         ipcRenderer.on('asynchronous-reply', (event, arg) => {
             console.log("asynchronous-reply 수신")
             console.log(arg);
+            console.log(remote.getGlobal("doeun"));  //이벤트가 발생해서 갱신된 글로벌 객체의 doeun 프로퍼티 내용 출력
         });
     }
 

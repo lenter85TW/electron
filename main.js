@@ -34,6 +34,7 @@ app.on('ready', () => {
     console.log(electron_flux.sum(2,3));
     console.log(electron_flux.sum2(2,3));
     //console.log(electron_flux.test.sum(2,3)); 안됨
+    global.doeun = "김도은";  //처음에 앱이 로드 되었을 때 글로벌 객체에 doeun 프로퍼티를 추가해준다. 내용은 '김도은'
 
 })
 
@@ -70,7 +71,11 @@ ipcMain.on('asynchronous-message', (event, arg) => {
 
     //chatRoomWindow1.webContents.send('asynchronous-reply', arg);  //이렇게 메세지를 받을 브라우저들을 직접 지정해서 send를 해줘야 여러 브라우저가 동시에 같은 메세지를 받을 수 있다.
     //chatRoomWindow2.webContents.send('asynchronous-reply', arg);
+
+    global.doeun = arg.type;  //이벤트가 발생해서 ipcMain이 데이터를 받으면 그 내용으로 다시 글로벌 객체의 doeun프로퍼티 내용을 바꾼다.
 });
+
+
 
 
 
