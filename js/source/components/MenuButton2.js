@@ -39,7 +39,7 @@ export default class MenuButton extends React.Component {
         console.log(gitmoduletest2.sum);  //결과는 계속 0 위와 같은 이유
 
         //get함수를 쓰면
-        console.log(gitmoduletest.getSum()); //결과는 30씩 증가!!
+        console.log(gitmoduletest.getSum()); //같은 프로세스 내에선 같이 결과는 30씩 증가!!
 
         console.log(gitmoduletest2.getSum()); //이녀석도 30씩 같이 증가한다. 즉 gitmoduletest나 gitmoduletest2나 사실 같은 녀석을 참고하고 있는 것이다. 즉 싱글톤 사용하는 것 같은 느낌
 
