@@ -27,9 +27,9 @@ exports.sum2 = function (a, b) {
 //안됨
 /*const test = {
 
-    sum: function (a, b) {
+    sum(a, b) {
         return a+b;
     }
-}
+};
 
 export default test;*/

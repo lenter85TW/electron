@@ -1,5 +1,8 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 /**
  * Created by kimdoeun on 2017. 3. 14..
  */
@@ -14,6 +17,7 @@
     }
 }*/
 
+//이런식으로 export 하면 다른곳에서 require로 쓸 수 있다.
 exports.sum = function (a, b) {
     return a + b;
 };
@@ -23,11 +27,10 @@ exports.sum2 = function (a, b) {
 };
 
 //안됨
-/*const test = {
-
-    sum: function (a, b) {
-        return a+b;
+var test = {
+    sum: function sum(a, b) {
+        return a + b;
     }
-}
+};
 
-export default test;*/
+exports.default = test;

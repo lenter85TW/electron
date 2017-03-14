@@ -33,6 +33,7 @@ app.on('ready', () => {
 
     console.log(electron_flux.sum(2,3));
     console.log(electron_flux.sum2(2,3));
+    //console.log(electron_flux.test.sum(2,3)); 안됨
 
 })
 
