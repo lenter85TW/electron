@@ -9,30 +9,48 @@ const ipcRenderer = electron.ipcRenderer;
 
 
 export default class MenuButton extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = {
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
 
-            }
-        }
+    onBtnClick() {
+        console.log("onBtnClick");
+        console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
+        /*ipcRenderer.on('pong', function (event, arg){
+         console.log(arg);
+         });*/
+    }
 
-        onBtnClick() {
-            console.log("onBtnClick");
-            console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
-            /*ipcRenderer.on('pong', function (event, arg){
-               console.log(arg);
-            });*/
-        }
+    onBtnClickMulti() {
+        console.log("onBtnClickMulti");
+        ipcRenderer.send('asynchronous-message', {type:"객체다"});
 
-        render() {
+    }
 
-            return (
+    componentDidMount(){
+        ipcRenderer.on('asynchronous-reply', (event, arg) => {
+            console.log("asynchronous-reply 수신")
+            console.log(arg);
+        });
+    }
+
+    render() {
+
+        return (
+            <div>
                 <div onClick={this.onBtnClick}>
                     버튼이다
                 </div>
-            );
 
-        }
+                <div onClick={this.onBtnClickMulti}>
+                    멀티통신 테스트
+                </div>
+            </div>
+
+        );
+
+    }
 
 }
 

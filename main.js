@@ -19,6 +19,12 @@ app.on('ready', () => {
     mainWindow.loadURL ('file://' + __dirname + '/index.html');
     //mainWindow.webContents.openDevTools();
 
+     chatRoomWindow1 = new BrowserWindow({width: 300, height: 500});
+     chatRoomWindow1.loadURL('file://' + __dirname + '/browsers/chatRoom.html');
+
+     chatRoomWindow2 = new BrowserWindow({width: 300, height: 500});
+     chatRoomWindow2.loadURL('file://' + __dirname + '/browsers/chatRoom2.html');
+
     //방법2. 처음부터 새로운 윈도우들을 다 만들어 놓고 show 만 false로 해놓는 방법도 있다.
     /*chatRoomWindow = new BrowserWindow({width:300, height: 600, show: false});
     chatRoomWindow.loadURL('file://' + __dirname + '/browsers/chatRoom.html');
@@ -45,13 +51,23 @@ ipcMain.on('synchronous-message', function (event, arg) {
     //chatRoomWindow.show = true;
 
     //방법3. 방법1은 조금 복잡하니 이처럼 하는게 쉬울 듯
-    chatRoomWindow = new BrowserWindow({width: 300, height: 500});
-    chatRoomWindow.loadURL('file://' + __dirname + '/browsers/chatRoom.html');
+    /*chatRoomWindow = new BrowserWindow({width: 300, height: 500});
+    chatRoomWindow.loadURL('file://' + __dirname + '/browsers/chatRoom.html');*/
 
 
     event.returnValue = 'pong';
 
 });
+
+ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log(arg);
+    event.sender.send('asynchronous-reply', arg);
+
+    chatRoomWindow1.webContents.send('asynchronous-reply', arg);  //이렇게 메세지를 받을 브라우저들을 직접 지정해서 send를 해줘야 여러 브라우저가 동시에 같은 메세지를 받을 수 있다.
+    chatRoomWindow2.webContents.send('asynchronous-reply', arg);
+});
+
+
 
 
 

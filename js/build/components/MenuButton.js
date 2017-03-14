@@ -45,8 +45,22 @@ var MenuButton = function (_React$Component) {
             console.log("onBtnClick");
             console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
             /*ipcRenderer.on('pong', function (event, arg){
-               console.log(arg);
-            });*/
+             console.log(arg);
+             });*/
+        }
+    }, {
+        key: 'onBtnClickMulti',
+        value: function onBtnClickMulti() {
+            console.log("onBtnClickMulti");
+            ipcRenderer.send('asynchronous-message', { type: "객체다" });
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            ipcRenderer.on('asynchronous-reply', function (event, arg) {
+                console.log("asynchronous-reply 수신");
+                console.log(arg);
+            });
         }
     }, {
         key: 'render',
@@ -54,8 +68,17 @@ var MenuButton = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { onClick: this.onBtnClick },
-                '\uBC84\uD2BC\uC774\uB2E4'
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { onClick: this.onBtnClick },
+                    '\uBC84\uD2BC\uC774\uB2E4'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { onClick: this.onBtnClickMulti },
+                    '\uBA40\uD2F0\uD1B5\uC2E0 \uD14C\uC2A4\uD2B8'
+                )
             );
         }
     }]);
