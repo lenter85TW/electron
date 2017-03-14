@@ -8,6 +8,7 @@ const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
 const remote = require('electron').remote;
 const main = remote.require('./main.js');
+var gitmoduletest = require('gitmoduletest');  //내가 만들어서 깃허브에 올린 모듈을 가지고 와보자.
 
 
 export default class MenuButton extends React.Component {
@@ -18,15 +19,28 @@ export default class MenuButton extends React.Component {
 
     onBtnClick() {
         console.log("onBtnClick");
-        console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
+        //console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
         /*ipcRenderer.on('pong', function (event, arg){
          console.log(arg);
          });*/
+
+        gitmoduletest.lenterSum(10,20);
     }
 
     onBtnClickMulti() {
         console.log("onBtnClickMulti");
-        ipcRenderer.send('asynchronous-message', {type:"객체다"});
+        //ipcRenderer.send('asynchronous-message', {type:"객체다"});
+
+        console.log(gitmoduletest.sum);  //결과는 계속 0  이녀석이 0인 이유는 이 sum은 이미 0인 상태로 export 되었기 때문
+
+        //새로 require 하면?
+        var gitmoduletest2 = require('gitmoduletest');
+        console.log(gitmoduletest2.sum);  //결과는 계속 0 위와 같은 이유
+
+        //get함수를 쓰면
+        console.log(gitmoduletest.getSum()); //결과는 30씩 증가!!
+
+        console.log(gitmoduletest2.getSum()); //이녀석도 30씩 같이 증가한다. 즉 gitmoduletest나 gitmoduletest2나 사실 같은 녀석을 참고하고 있는 것이다. 즉 싱글톤 사용하는 것 같은 느낌
 
     }
 

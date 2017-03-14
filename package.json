@@ -24,6 +24,7 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
+    "gitmoduletest": "git://github.com/lenter85TW/ModuleTest.git#master",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   }
