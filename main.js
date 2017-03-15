@@ -9,6 +9,7 @@ const url = require('url');
 const path = require('path');
 const ipcMain = electron.ipcMain;
 const electron_flux = require('./js/build/modules/electron_flux');
+//const mainDispatcher = require('./js/build/modules/electron_flux');
 var gitmoduletest = require('gitmoduletest');  //내가 만들어서 깃허브에 올린 모듈을 가지고 와보자.
 
 let mainWindow;
@@ -16,28 +17,54 @@ let chatRoomWindow1;
 let chatRoomWindow2;
 let subWin;
 
+let testWin1;
+let testWin2;
+let testWin3;
+
+
+
+
 //메인에 배치되는 저장소
 let store = {
-    sampleBtnToggle : true,
-    increasingNum:1
+    sampleBtnToggle : true
 };
 
 function getStore() {
     return store;
 }
 
-function updateStore() {
+
+/*function updateStore() {
     store.increasingNum = store.increasingNum + 1;
-}
+}*/
 
 
 app.on('ready', () => {
-    mainWindow = new BrowserWindow( {width: 800, height: 600});
-    mainWindow.loadURL ('file://' + __dirname + '/index.html');
+    //mainWindow = new BrowserWindow( {width: 800, height: 600});
+    //mainWindow.loadURL ('file://' + __dirname + '/index.html');
     //mainWindow.webContents.openDevTools();
 
-    subWin = new BrowserWindow( {width: 800, height: 600});
-    subWin.loadURL ('file://' + __dirname + '/browsers/subWindow1.html');
+    //subWin = new BrowserWindow( {width: 800, height: 600});
+    //subWin.loadURL ('file://' + __dirname + '/browsers/subWindow1.html');
+
+    electron_flux.mainStore.init(store);
+    electron_flux.mainDispatcher.init(ipcMain);
+
+    testWin1 = new BrowserWindow( {width: 800, height: 600});
+    testWin1.loadURL ('file://' + __dirname + '/browsers/testWin1.html');
+    testWin1.webContents.openDevTools();
+
+    testWin2 = new BrowserWindow( {width: 800, height: 600});
+    testWin2.loadURL ('file://' + __dirname + '/browsers/testWin2.html');
+    testWin2.webContents.openDevTools();
+
+    testWin3 = new BrowserWindow( {width: 800, height: 600});
+    testWin3.loadURL ('file://' + __dirname + '/browsers/testWin3.html');
+    testWin3.webContents.openDevTools();
+
+    electron_flux.mainStore.addWindow(testWin1);
+    electron_flux.mainStore.addWindow(testWin2);
+    electron_flux.mainStore.addWindow(testWin3);
 
 
     global.doeun = "김도은";  //처음에 앱이 로드 되었을 때 글로벌 객체에 doeun 프로퍼티를 추가해준다. 내용은 '김도은'
@@ -70,7 +97,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
 
 
 exports.getStore = getStore;
-exports.updateStore = updateStore;
+//exports.updateStore = updateStore;
 
 
 

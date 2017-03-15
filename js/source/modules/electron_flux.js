@@ -96,7 +96,7 @@ var ipcRenderer = null;
 var remote = null;
 var windowList = [];
 var main = null;
-var rendererStoreObj = null;
+var rendererStoreObj=null;
 var mainStoreObj= null;
 const emitter = new EventEmitter();
 
@@ -104,12 +104,19 @@ const emitter = new EventEmitter();
 
 var mainDispatcher = {
 
-    init(mainIpc, ){
+    init(mainIpc){
         ipcMain = mainIpc;
         ipcMain.on('updateStore', (event, dataName, data) => {
-
+            console.log("mainDispatcher 실행", dataName, data);
+            if(mainStoreObj[dataName] !== data){
+                mainStore.changeData(dataName, data);
+            }
         })
     }
+
+
+
+
 
 };
 
@@ -121,6 +128,7 @@ var rendererAction = {
     },
 
     updateStore(dataName, data){
+        console.log("rendereAction - updateStore", dataName, data);
         ipcRenderer.send('updateStore', dataName, data);
     }
 
@@ -138,7 +146,7 @@ var mainStore = {
     },
 
     addWindow(winObj){
-        windowList.add(winObj);
+        windowList.push(winObj);
     },
 
     removeWindow(winObj){
@@ -147,12 +155,12 @@ var mainStore = {
     },
 
     changeData(dataName, newData){
-        if(mainStoreObj[dataName] !== newData) {
-            mainStoreObj[dataName] = newData;
-            windowList.forEach( (currentValue) => {
-                currentValue.webContents.send('dataChanged', dataName, newData );  //webContents로 하면 파라메터를 여러개 보낼 수 있다.
-            });
-        }
+        console.log("mainStore - changeData 실행");
+        mainStoreObj[dataName] = newData;
+        windowList.forEach((currentValue) => {
+            console.log("forEach 실행");
+            currentValue.webContents.send('dataChanged', dataName);  //webContents로 하면 파라메터를 여러개 보낼 수 있다.
+        });
     }
 };
 
@@ -166,32 +174,41 @@ var rendererStore = {
         main = rendererRemoteMain;
         ipcRenderer = rendererIpc;
         rendererStoreObj = main.getStore();  //이렇게 가지고 오면 참조를 가지고 온거라서 메인프로세스에서 스토어가 바뀌면 여기서도 계속 자동으로 바뀐다. moduleTest를 하면서 exports.sum = sum  했던 것과는 다르다 이때는 sum은 안바뀌고 0만 계속 나왔지.
-        ipcRenderer.on('dataChanged', this.changeData);  //메인프로세스로부터 저장소의 데이터가 변경되었다고 연락이 오면 changeData메소드를 실행한다.
+        ipcRenderer.on('dataChanged', this.DataChanged);  //메인프로세스로부터 저장소의 데이터가 변경되었다고 연락이 오면 changeData메소드를 실행한다.
     },
 
-    changeData(event, dataName, newData) {   //렌더러 프로세스의 저장소도 데이터를 바꿔주고, 이벤트 방출기emitter로 데이터 이름으로 이벤트를 방출한다.
-        rendererStoreObj[dataName] = newData;
-        emitter(dataName + ' changed');
+    DataChanged(event, dataName) {   //렌더러 프로세스의 저장소도 데이터를 바꿔주고, 이벤트 방출기emitter로 데이터 이름으로 이벤트를 방출한다.
+        //rendererStoreObj[dataName] = newData;
+        console.log("renderStore - DataChanged 실행");
+        //console.log(rendererStoreObj.sampleBtnToggle);
+        emitter.emit(dataName);
     },
 
     addListener(eventType, func){
-        emitter.addListener(eventType, func);
+        emitter.on(eventType, func);
     },
 
     removeListener(){
 
-    }
+    },
 
 
+
+
+}
+
+function getRenderStoreObj() {
+    return rendererStoreObj;
 }
 
 
 
 
-export {mainDispatcher};
-export {rendererAction};
-export {mainStore};
-export {rendererStore};
+exports.mainDispatcher = mainDispatcher;
+exports.rendererAction = rendererAction;
+exports.mainStore = mainStore;
+exports.rendererStore = rendererStore;
+exports.getRenderStoreObj = getRenderStoreObj;
 
 
 
