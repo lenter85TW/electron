@@ -12,8 +12,23 @@ const electron_flux = require('./js/build/modules/electron_flux');
 var gitmoduletest = require('gitmoduletest');  //내가 만들어서 깃허브에 올린 모듈을 가지고 와보자.
 
 let mainWindow;
-let chatRoomWindow;
+let chatRoomWindow1;
 let chatRoomWindow2;
+let subWin;
+
+//메인에 배치되는 저장소
+let store = {
+    sampleBtnToggle : true,
+    increasingNum:1
+};
+
+function getStore() {
+    return store;
+}
+
+function updateStore() {
+    store.increasingNum = store.increasingNum + 1;
+}
 
 
 app.on('ready', () => {
@@ -21,10 +36,10 @@ app.on('ready', () => {
     mainWindow.loadURL ('file://' + __dirname + '/index.html');
     //mainWindow.webContents.openDevTools();
 
+    subWin = new BrowserWindow( {width: 800, height: 600});
+    subWin.loadURL ('file://' + __dirname + '/browsers/subWindow1.html');
 
-    //console.log(electron_flux.sum(2,3));
-    //console.log(electron_flux.sum2(2,3));
-    //console.log(electron_flux.test.sum(2,6));
+
     global.doeun = "김도은";  //처음에 앱이 로드 되었을 때 글로벌 객체에 doeun 프로퍼티를 추가해준다. 내용은 '김도은'
 
 })
@@ -43,9 +58,9 @@ ipcMain.on('synchronous-message', function (event, arg) {
 
 ipcMain.on('asynchronous-message', (event, arg) => {
     console.log(arg);
-    event.sender.send('asynchronous-reply', arg);
+    event.sender.send('asynchronous-reply', arg, "hello");  //이렇게 보내도 3번째 매개변수인 "hello"는 전송이 안된
 
-    //chatRoomWindow1.webContents.send('asynchronous-reply', arg);  //이렇게 메세지를 받을 브라우저들을 직접 지정해서 send를 해줘야 여러 브라우저가 동시에 같은 메세지를 받을 수 있다.
+    //chatRoomWindow1.webContents.send('asynchronous-reply', arg, "hello");  //이렇게 메세지를 받을 브라우저들을 직접 지정해서 send를 해줘야 여러 브라우저가 동시에 같은 메세지를 받을 수 있다. 이렇게 하면 "hello"도 전송 된다.
     //chatRoomWindow2.webContents.send('asynchronous-reply', arg);
 
     global.doeun = arg.type;  //이벤트가 발생해서 ipcMain이 데이터를 받으면 그 내용으로 다시 글로벌 객체의 doeun프로퍼티 내용을 바꾼다.
@@ -54,7 +69,8 @@ ipcMain.on('asynchronous-message', (event, arg) => {
 
 
 
-
+exports.getStore = getStore;
+exports.updateStore = updateStore;
 
 
 

@@ -76,9 +76,10 @@ var MenuButton = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             console.log(remote.getGlobal("doeun")); //처음 기본적으로 저장된 글로벌 객체의 doeun 프로퍼티 내용을 출력
-            ipcRenderer.on('asynchronous-reply', function (event, arg) {
+            ipcRenderer.on('asynchronous-reply', function (event, arg, arg2) {
+                //실험해보니 send할때는 매개변수 여러개 보낼 수 있는데, on으로 받을때는 매개변수 하나밖에 못받네.
                 console.log("asynchronous-reply 수신");
-                console.log(arg);
+                console.log(arg, arg2);
                 console.log(remote.getGlobal("doeun")); //이벤트가 발생해서 갱신된 글로벌 객체의 doeun 프로퍼티 내용 출력
             });
         }
