@@ -1,8 +1,11 @@
-"use strict";
+'use strict';
 
-/**
- * Created by kimdoeun on 2017. 3. 14..
- */
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.test = undefined;
+
+var _fbemitter = require('fbemitter');
 
 //안됨
 /*export default class electron_flux {
@@ -15,20 +18,26 @@
 }*/
 
 //이런식으로 export 하면 다른곳에서 require로 쓸 수 있다.
-exports.sum = function (a, b) {
-    return a + b;
-};
+/*exports.sum = function (a, b) {
+    return a+b;
+}
 
 exports.sum2 = function (a, b) {
-    return a + b + 3;
-};
+    return a+b+3;
+}*/
 
 //안됨
-/*const test = {
-
-    sum(a, b) {
-        return a+b;
+var test = {
+    sum: function sum(a, b) {
+        return a + b;
     }
-};
+}; /**
+    * Created by kimdoeun on 2017. 3. 14..
+    */
 
-export default test;*/
+exports.test = test;
+
+
+var emitter = new _fbemitter.EventEmitter();
+
+var Store = {};
