@@ -9,7 +9,6 @@ import MenuButton from './js/build/components/MenuButton'; //경로를 이런식
 
 ReactDOM.render(
     <div>
-        첫화면
         <MenuButton/>
     </div>,
     document.getElementById('app')

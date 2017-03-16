@@ -6,33 +6,41 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
-
+const realm = require('../realm/realm');
 
 export default class MenuButton extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = {
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
 
-            }
-        }
+    onBtnClick() {
+        console.log("onBtnClick1, 데이터 추가");
+        realm.write( () => {
+            realm.create('Car', {make:'Honda', model:'Accord', drive: 'awd'});
+        });
 
-        onBtnClick() {
-            console.log("onBtnClick");
-            console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
-            /*ipcRenderer.on('pong', function (event, arg){
-               console.log(arg);
-            });*/
-        }
+    }
 
-        render() {
+    onBtnClick2() {
+        console.log("onBtnClick2, 데이터 로드");
+        console.log(realm.objects('Car'));
 
-            return (
-                <div onClick={this.onBtnClick}>
-                    버튼이다
-                </div>
-            );
+    }
 
-        }
+    render() {
+
+        return (
+            <div>
+                <button onClick={this.onBtnClick}>데이터 추가</button>
+                <button onClick={this.onBtnClick2}>데이터 로드</button>
+
+            </div>
+
+
+        );
+
+    }
 
 }
 

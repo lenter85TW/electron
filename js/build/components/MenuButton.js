@@ -26,6 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var electron = require('electron');
 var ipcRenderer = electron.ipcRenderer;
+var realm = require('../realm/realm');
 
 var MenuButton = function (_React$Component) {
     _inherits(MenuButton, _React$Component);
@@ -42,11 +43,16 @@ var MenuButton = function (_React$Component) {
     _createClass(MenuButton, [{
         key: 'onBtnClick',
         value: function onBtnClick() {
-            console.log("onBtnClick");
-            console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
-            /*ipcRenderer.on('pong', function (event, arg){
-               console.log(arg);
-            });*/
+            console.log("onBtnClick1, 데이터 추가");
+            realm.write(function () {
+                realm.create('Car', { make: 'Honda', model: 'Accord', drive: 'awd' });
+            });
+        }
+    }, {
+        key: 'onBtnClick2',
+        value: function onBtnClick2() {
+            console.log("onBtnClick2, 데이터 로드");
+            console.log(realm.objects('Car'));
         }
     }, {
         key: 'render',
@@ -54,8 +60,17 @@ var MenuButton = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { onClick: this.onBtnClick },
-                '\uBC84\uD2BC\uC774\uB2E4'
+                null,
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.onBtnClick },
+                    '\uB370\uC774\uD130 \uCD94\uAC00'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.onBtnClick2 },
+                    '\uB370\uC774\uD130 \uB85C\uB4DC'
+                )
             );
         }
     }]);

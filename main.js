@@ -17,12 +17,8 @@ let chatRoomWindow2;
 app.on('ready', () => {
     mainWindow = new BrowserWindow( {width: 800, height: 600});
     mainWindow.loadURL ('file://' + __dirname + '/index.html');
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
-    //방법2. 처음부터 새로운 윈도우들을 다 만들어 놓고 show 만 false로 해놓는 방법도 있다.
-    /*chatRoomWindow = new BrowserWindow({width:300, height: 600, show: false});
-    chatRoomWindow.loadURL('file://' + __dirname + '/browsers/chatRoom.html');
-    chatRoomWindow.webContents.openDevTools();*/
 
 })
 
@@ -30,28 +26,33 @@ app.on('ready', () => {
 
 
 ipcMain.on('synchronous-message', function (event, arg) {
-    //send back a greeting
-    //console.log(arg);
 
-    //방법1.
-    /*chatRoomWindow  = new BrowserWindow({width: 300, height: 500});
-    chatRoomWindow.loadURL(url.format({
-        pathname: path.join(__dirname + '/browsers/', 'chatRoom.html'),
-        protocol: 'file:',
-        slashes: true
-    }));*/
-
-    //방법2.
-    //chatRoomWindow.show = true;
-
-    //방법3. 방법1은 조금 복잡하니 이처럼 하는게 쉬울 듯
-    chatRoomWindow = new BrowserWindow({width: 300, height: 500});
-    chatRoomWindow.loadURL('file://' + __dirname + '/browsers/chatRoom.html');
-
-
-    event.returnValue = 'pong';
 
 });
 
 
+// var Realm = require('./node_modules/realm/compiled/node-v47_darwin_x64/realm');
+/*var Realm = require('realm');
 
+const CarSchema = {
+    name: 'Car',
+    properties: {
+        make:  'string',
+        model: 'string',
+        miles: {type: 'int', default: 0},
+    }
+};
+const PersonSchema = {
+    name: 'Person',
+    properties: {
+        name:     'string',
+        birthday: 'date',
+        cars:     {type: 'list', objectType: 'Car'},
+        picture:  {type: 'data', optional: true}, // optional property
+    }
+};
+
+// Initialize a Realm with Car and Person models
+let realm = new Realm({schema: [CarSchema, PersonSchema]});
+
+exports.realm = realm;*/
