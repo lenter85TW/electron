@@ -35,6 +35,8 @@ ipcMain.on('synchronous-message', function (event, arg) {
 });
 
 
+//처음에 앱이 시작되고 'ready'가 되었을 때 이 함수를 실행한다. squirrel이벤트라는 걸 통해 switch-case문을 시작한다.
+//처음 install이되거나 update가 되었을때 update.exe를 실행하며 옵션으로 createshortcut도 실해한다. uninstall이벤트는 그 반대 작업.
 var handleStartupEvent = function() {
   if (process.platform !== 'win32') {
         return false;

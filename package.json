@@ -14,7 +14,8 @@
     "package-windows": "grunt create-windows-distributable",
     "transform": "watch \"sh scripts\\build.sh\" ",
     "build": "electron-packager ./ LenterApp --asar --platform win32 --arch x64 --version-string.ProductName ShortcutName --icon ./images/logo.ico  --out dist/",
-    "buildExplain":"--version-string.ProductName 이거다음나오는 이름이 바로가기 이름, --icon ./images/logo.ico 로 설정한 이미지는 앱 실행했을때 왼쪽 상단에 뜨는 이미지",
+    "buildExplain":"--version-string.ProductName 이거다음나오는 이름이 바탕화면에 설치될 바로가기 이름, --icon ./images/logo.ico 로 설정한 이미지가 앱 이미지",
+    "explain2":"name이 인스톨 했을때 설치될 폴더 이름, version이 앱 버전, description은 앱 아이콘이나 설치아이콘 마우스 갖다대며 나오는 설명",
     "installer":"grunt"
   },
   "author": "Twinny",
