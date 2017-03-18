@@ -1,7 +1,7 @@
 {
   "name": "moigo",
   "version": "0.0.1",
-  "description": "",
+  "description": "helloLenter",
   "main": "main.js",
   "babel": {
     "presets": [
@@ -11,17 +11,28 @@
   },
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "transform": "watch \"sh scripts/build.sh\" "
+    "build": "grunt build",
+    "package-windows":"grunt create-windows-distributable",
+    "transform": "watch \"sh scripts\\build.sh\" "
   },
   "author": "Twinny",
   "license": "ISC",
   "devDependencies": {
+    "asar": "^0.13.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "electron": "^1.6.2",
+    "electron-installer-squirrel-windows": "^1.3.0",
+    "electron-packager": "^8.6.0",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.5.7",
+    "electron-winstaller": "^2.5.2",
+    "node-gyp": "^3.6.0",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-electron-installer": "^2.1.0",
+    "grunt-extend-config": "^0.9.5",
     "watch": "^1.0.2"
   },
   "dependencies": {

@@ -3,6 +3,7 @@
  */
 
 
+//var Realm = require('./node_modules/realm/compiled/electron-v1.6_win32_x64/realm.node');
 var Realm = require('realm');
 
 
@@ -29,4 +30,3 @@ var realm = new Realm({schema: [CarSchema, PersonSchema]});
 
 //exports.realm = realm;  왜 이건 안되지???
 module.exports = realm;
-
