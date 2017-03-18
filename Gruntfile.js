@@ -5,8 +5,12 @@ module.exports = function(grunt){
       x64: {
         appDirectory: './dist/LenterApp-win32-x64',
         outputDirectory: './dist/LenterGruntApp',
-        authors: 'My App Inc.',  //setup.exe파일 우클릭 했을때 저작관 정보가 여기에 들어간다.
-        exe: 'LenterApp.exe'  //setup.exe로 나오고 설치를 하면 실행 파일 이름이 이렇게 나온다.
+        authors: 'My App Inc.',  //setup.exe파일 우클릭 했을때 저작권 정보가 여기에 들어간다.
+        exe: 'LenterApp.exe',  //setup.exe로 나오고 설치를 하면 실행 파일 이름이 이렇게 나온다.
+        title:'LenterAppTitle',  //제어판에 등록되어 있는 이름이 이거다
+        iconUrl: 'http://desktop.twinny.io/logo.ico',
+        setupIcon: 'images/logo.ico',  //셋업이 된 후에 updat.exe파일에 이 이미지가 들어가네
+        loadingGif: 'images/setup.gif'  //로딩할때 이미지
       },
       // ia32: {
       //   appDirectory: './dist/LenterApp-win32-x64',
