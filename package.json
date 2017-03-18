@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "package-windows":"grunt create-windows-distributable",
+    "package-windows": "grunt create-windows-distributable",
     "transform": "watch \"sh scripts\\build.sh\" "
   },
   "author": "Twinny",
@@ -24,6 +24,9 @@
     "electron-packager": "^8.6.0",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.5.7",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-electron-installer": "^2.1.0",
     "watch": "^1.0.2"
   },
   "dependencies": {
