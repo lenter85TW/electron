@@ -13,8 +13,8 @@
     "start":"electron .",
     "package-windows": "grunt create-windows-distributable",
     "transform": "watch \"sh scripts\\build.sh\" ",
-    "build": "electron-packager . LenterApp --asar --platform win32 --arch x64 --version-string.ProductName ShortcutName  --out dist/",
-    "buildExplain":"--version-string.ProductName 이거다음나오는 이름이 바로가기 이름, --icon images/logo.ico 로 설정한 이미지는 앱 실행했을때 왼쪽 상단에 뜨는 이미지",
+    "build": "electron-packager ./ LenterApp --asar --platform win32 --arch x64 --version-string.ProductName ShortcutName --icon ./images/logo.ico  --out dist/",
+    "buildExplain":"--version-string.ProductName 이거다음나오는 이름이 바로가기 이름, --icon ./images/logo.ico 로 설정한 이미지는 앱 실행했을때 왼쪽 상단에 뜨는 이미지",
     "installer":"grunt"
   },
   "author": "Twinny",
