@@ -9,7 +9,7 @@ const ipcRenderer = electron.ipcRenderer;
 const realm = require('../realm/realm');
 
 var badgeCount = 0;
-
+var badgeDataURL;
 
 export default class MenuButton extends React.Component {
     constructor(props) {
@@ -37,7 +37,7 @@ export default class MenuButton extends React.Component {
         //console.log(NativeImage);
 
         badgeCount++;
-        
+
         var text = String(badgeCount);
         if (process.platform === "darwin") {
           app.dock.setBadge("" + text);  //맥에선 이렇게 간편하게 할 수 있다.
@@ -73,11 +73,21 @@ export default class MenuButton extends React.Component {
           }
 
           console.log("canvas는 : " , canvas);
-          var badgeDataURL = canvas.toDataURL();
+          badgeDataURL = canvas.toDataURL();
           console.log(badgeDataURL);
           ipcRenderer.send('badge-message', badgeDataURL);
         }
 
+    }
+
+    notification() { //javascript의 알림기능은 이정도가 한계다. 어디서 튀어나올지, 배경색은 뭘로할지 등의 설정이 안된다.
+    var options = {
+      body : "New message from Lenter",
+      icon : "http://eztrackit.com/wp-content/uploads/2014/06/mail-256.png"
+    }
+
+    var notification = new Notification("Title", options);
+    console.log(notification.image)
     }
 
 
@@ -88,6 +98,7 @@ export default class MenuButton extends React.Component {
                 <button onClick={this.onBtnClick}>데이터 추가</button>
                 <button onClick={this.onBtnClick2}>데이터 로드</button>
                 <button onClick={this.setBadge}>뱃지설정</button>
+                <button onClick={this.notification}>Notification</button>
             </div>
 
 

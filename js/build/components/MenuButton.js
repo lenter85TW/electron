@@ -29,6 +29,7 @@ var ipcRenderer = electron.ipcRenderer;
 var realm = require('../realm/realm');
 
 var badgeCount = 0;
+var badgeDataURL;
 
 var MenuButton = function (_React$Component) {
     _inherits(MenuButton, _React$Component);
@@ -64,6 +65,7 @@ var MenuButton = function (_React$Component) {
             //console.log(NativeImage);
 
             badgeCount++;
+
             var text = String(badgeCount);
             if (process.platform === "darwin") {
                 app.dock.setBadge("" + text); //맥에선 이렇게 간편하게 할 수 있다.
@@ -100,10 +102,21 @@ var MenuButton = function (_React$Component) {
                 }
 
                 console.log("canvas는 : ", canvas);
-                var badgeDataURL = canvas.toDataURL();
+                badgeDataURL = canvas.toDataURL();
                 console.log(badgeDataURL);
                 ipcRenderer.send('badge-message', badgeDataURL);
             }
+        }
+    }, {
+        key: 'notification',
+        value: function notification() {
+            var options = {
+                body: "New message",
+                icon: "http://eztrackit.com/wp-content/uploads/2014/06/mail-256.png"
+            };
+
+            var notification = new Notification("Title", options);
+            console.log(notification.image);
         }
     }, {
         key: 'render',
@@ -126,6 +139,11 @@ var MenuButton = function (_React$Component) {
                     'button',
                     { onClick: this.setBadge },
                     '\uBC43\uC9C0\uC124\uC815'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.notification },
+                    'Notification'
                 )
             );
         }
