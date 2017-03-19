@@ -34,10 +34,17 @@ app.on('ready', () => {
 })
 
 
-ipcMain.on('badge-message', function (event, arg) {  //렌더러 프로세스로 부터 badge-message이벤트를 받고, 매개변수로 canvas의 dataURL주소를 받는다.
+ipcMain.on('badge-message', function (event, platformStr, arg) {  //렌더러 프로세스로 부터 badge-message이벤트를 받고, 매개변수로 canvas의 dataURL주소를 받는다.
   //console.log(arg);
-  var newImage = nativeImage.createFromDataURL(arg); //createFromDataURL메소드로 native이미지(png나 jpeg같은 것)를 생성한다.
-  mainWindow.setOverlayIcon(newImage, '');
+
+
+    if(platformStr === "darwin") {
+        app.dock.setBadge("" + arg);
+    } else if(platformStr === "win32") {
+        var newImage = nativeImage.createFromDataURL(arg); //createFromDataURL메소드로 native이미지(png나 jpeg같은 것)를 생성한다.
+        mainWindow.setOverlayIcon(newImage, '');
+    }
+
 
 });
 

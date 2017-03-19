@@ -28,8 +28,14 @@ export default class MenuButton extends React.Component {
 
     onBtnClick2() {
         console.log("onBtnClick2, 데이터 로드");
-        console.log(realm.objects('Car'));
+        var cars = realm.objects('Car');
+        //console.log(cars);
+        //console.log(typeof cars);
+        //console.log(realm.objects('Car')[0].make);
 
+        for(var i = 0 ; i< cars.length ; i++){
+            console.log(cars[i]);
+        }
     }
 
     setBadge() {
@@ -40,7 +46,8 @@ export default class MenuButton extends React.Component {
 
         var text = String(badgeCount);
         if (process.platform === "darwin") {
-          app.dock.setBadge("" + text);  //맥에선 이렇게 간편하게 할 수 있다.
+            //맥에선 이렇게 간편하게 할 수 있다.
+            ipcRenderer.send('badge-message', "darwin", badgeCount);
         } else if (process.platform === "win32") {  //그러나 윈도우에선 canvas에 그림을 그리고 그데이터를 메인에 넘긴후, 메인에서 native이미지를 생성해서 뱃지 추가한다.
           console.log("wind32임");
 
@@ -75,7 +82,7 @@ export default class MenuButton extends React.Component {
           console.log("canvas는 : " , canvas);
           badgeDataURL = canvas.toDataURL();
           console.log(badgeDataURL);
-          ipcRenderer.send('badge-message', badgeDataURL);
+          ipcRenderer.send('badge-message', "win32", badgeDataURL);
         }
 
     }
