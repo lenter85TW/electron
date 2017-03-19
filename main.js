@@ -9,16 +9,23 @@ const sys = require('util');
 const path = require('path');
 const spawn = require('child_process').spawnSync;
 const ipcMain = electron.ipcMain;
+const nativeImage = electron.nativeImage;
 
 let mainWindow;
 let chatRoomWindow;
 let chatRoomWindow2;
 
 
+
+
 app.on('ready', () => {
     mainWindow = new BrowserWindow( {width: 800, height: 600, icon:__dirname + '/logo.ico'});  //여기서 icon은 앱을 실행했을때 왼쪽 상단에 뜨는 아이콘
     mainWindow.loadURL ('file://' + __dirname + '/index.html');
     mainWindow.webContents.openDevTools();
+    //overlay이미지 표시
+
+    //mainWindow.setOverlayIcon(nativeImage.createEmpty(), '');
+
 
     if (handleStartupEvent()) {
       return;
@@ -27,10 +34,10 @@ app.on('ready', () => {
 })
 
 
-
-
-ipcMain.on('synchronous-message', function (event, arg) {
-
+ipcMain.on('badge-message', function (event, arg) {  //렌더러 프로세스로 부터 badge-message이벤트를 받고, 매개변수로 canvas의 dataURL주소를 받는다.
+  //console.log(arg);
+  var newImage = nativeImage.createFromDataURL(arg); //createFromDataURL메소드로 native이미지(png나 jpeg같은 것)를 생성한다.
+  mainWindow.setOverlayIcon(newImage, '');
 
 });
 

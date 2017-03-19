@@ -11,8 +11,7 @@
   },
   "scripts": {
     "start":"electron .",
-    "package-windows": "grunt create-windows-distributable",
-    "transform": "watch \"sh scripts\\build.sh\" ",
+    "transform": "babel js\\source -d js\\build",
     "build": "electron-packager ./ LenterApp --asar --platform win32 --arch x64 --version-string.ProductName ShortcutName --icon ./images/logo.ico  --out dist/",
     "buildExplain":"--version-string.ProductName 이거다음나오는 이름이 바탕화면에 설치될 바로가기 이름, --icon ./images/logo.ico 로 설정한 이미지가 앱 이미지",
     "explain2":"name이 인스톨 했을때 설치될 폴더 이름, version이 앱 버전, description은 앱 아이콘이나 설치아이콘 마우스 갖다대며 나오는 설명",
@@ -25,7 +24,6 @@
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "electron": "^1.6.2",
-    "electron-installer-squirrel-windows": "^1.3.0",
     "electron-packager": "^8.6.0",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.5.7",
