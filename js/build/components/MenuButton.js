@@ -27,9 +27,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var electron = require('electron');
 var ipcRenderer = electron.ipcRenderer;
 var realm = require('../realm/realm');
+var electron_taskbar_badge = require('electron_taskbar_badge');
 
 var badgeCount = 0;
 var badgeDataURL;
+electron_taskbar_badge.setRenderProcessObj(ipcRenderer);
 
 var MenuButton = function (_React$Component) {
     _inherits(MenuButton, _React$Component);
@@ -128,6 +130,12 @@ var MenuButton = function (_React$Component) {
             console.log(notification.image);
         }
     }, {
+        key: 'setBadgeByModule',
+        value: function setBadgeByModule() {
+            badgeCount++;
+            electron_taskbar_badge.setBadgeRenderer(badgeCount);
+        }
+    }, {
         key: 'render',
         value: function render() {
 
@@ -153,6 +161,11 @@ var MenuButton = function (_React$Component) {
                     'button',
                     { onClick: this.notification },
                     'Notification'
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.setBadgeByModule },
+                    '\uBAA8\uB4C8\uC744 \uC774\uC6A9\uD55C \uBC43\uC9C0\uC124\uC815'
                 )
             );
         }

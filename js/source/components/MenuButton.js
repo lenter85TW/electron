@@ -7,9 +7,11 @@ import ReactDOM from 'react-dom';
 const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
 const realm = require('../realm/realm');
+const electron_taskbar_badge = require('electron_taskbar_badge');
 
 var badgeCount = 0;
 var badgeDataURL;
+electron_taskbar_badge.setRenderProcessObj(ipcRenderer);
 
 export default class MenuButton extends React.Component {
     constructor(props) {
@@ -98,6 +100,13 @@ export default class MenuButton extends React.Component {
     }
 
 
+    setBadgeByModule(){
+        badgeCount++;
+        electron_taskbar_badge.setBadgeRenderer(badgeCount);
+    }
+
+
+
     render() {
 
         return (
@@ -106,6 +115,7 @@ export default class MenuButton extends React.Component {
                 <button onClick={this.onBtnClick2}>데이터 로드</button>
                 <button onClick={this.setBadge}>뱃지설정</button>
                 <button onClick={this.notification}>Notification</button>
+                <button onClick={this.setBadgeByModule}>모듈을 이용한 뱃지설정</button>
             </div>
 
 

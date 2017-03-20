@@ -10,6 +10,7 @@ const path = require('path');
 const spawn = require('child_process').spawnSync;
 const ipcMain = electron.ipcMain;
 const nativeImage = electron.nativeImage;
+const electron_taskbar_badge = require('electron_taskbar_badge');
 
 let mainWindow;
 let chatRoomWindow;
@@ -22,31 +23,20 @@ app.on('ready', () => {
     mainWindow = new BrowserWindow( {width: 800, height: 600, icon:__dirname + '/logo.ico'});  //여기서 icon은 앱을 실행했을때 왼쪽 상단에 뜨는 아이콘
     mainWindow.loadURL ('file://' + __dirname + '/index.html');
     mainWindow.webContents.openDevTools();
-    //overlay이미지 표시
-
-    //mainWindow.setOverlayIcon(nativeImage.createEmpty(), '');
 
 
     if (handleStartupEvent()) {
       return;
     }
 
+    //작업표시줄 뱃지를 달기위해 내가 만든 모듈 사용
+    electron_taskbar_badge.setMainProcessObj(ipcMain,app,mainWindow,nativeImage);
+    electron_taskbar_badge.setBadgeMain();
+
+
 })
 
 
-ipcMain.on('badge-message', function (event, platformStr, arg) {  //렌더러 프로세스로 부터 badge-message이벤트를 받고, 매개변수로 canvas의 dataURL주소를 받는다.
-  //console.log(arg);
-
-
-    if(platformStr === "darwin") {
-        app.dock.setBadge("" + arg);
-    } else if(platformStr === "win32") {
-        var newImage = nativeImage.createFromDataURL(arg); //createFromDataURL메소드로 native이미지(png나 jpeg같은 것)를 생성한다.
-        mainWindow.setOverlayIcon(newImage, '');
-    }
-
-
-});
 
 
 //처음에 앱이 시작되고 'ready'가 되었을 때 이 함수를 실행한다. squirrel이벤트라는 걸 통해 switch-case문을 시작한다.
