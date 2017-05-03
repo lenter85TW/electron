@@ -23,12 +23,17 @@ export default class MenuButton extends React.Component {
         console.log('MenuButton main : ', main);
         // var store = ipcRenderer.sendSync('getstore');
         // console.log(store);
+        //electron_flux.rendererProcess.init(ipcRenderer);
+
+        // setTimeout( () => {
+        //     console.log(electron_flux.getMainStoreObj().test);
+        // }, 1000)
+
+        console.log(remote.getGlobal('store') );
+        remote.getGlobal('store').method();
 
 
-        electron_flux.rendererProcess.init(ipcRenderer);
 
-
-        console.log(electron_flux.getMainStoreObj().test);
     }
 
     onBtnClick() {

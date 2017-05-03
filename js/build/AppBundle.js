@@ -158,12 +158,15 @@ var MenuButton = function (_React$Component) {
         console.log('MenuButton main : ', main);
         // var store = ipcRenderer.sendSync('getstore');
         // console.log(store);
+        //electron_flux.rendererProcess.init(ipcRenderer);
 
-        _electron_flux2.default.rendererAction.init(ipcRenderer);
-        //electron_flux.rendererProcess.init(main, ipcRenderer);
+        // setTimeout( () => {
+        //     console.log(electron_flux.getMainStoreObj().test);
+        // }, 1000)
 
+        console.log(remote.getGlobal('store'));
+        remote.getGlobal('store').method();
 
-        console.log(_electron_flux2.default.getMainStoreObj().test);
         return _this;
     }
 
@@ -356,9 +359,23 @@ var rendererAction = {
 
 var mainProcess = {
     /////
-    init: function init(store, windowListMap) {
+    init: function init(store, windowListMap, ipcMain) {
         mainStoreObj = store;
         mainWindowListMap = windowListMap;
+        console.log('mainProcessInit ', store, windowListMap);
+        ipcMain.on('getStore', function (event) {
+            event.sender.send('getStoreReply', store);
+        });
+
+        ipcMain.on('getWindowListMap', function (event) {
+            console.log('windowlistmap');
+            event.sender.send('getWindowListMapReply', JSON.stringify({
+                props: 'props',
+                method: function method() {
+                    console.log('i am function');
+                }
+            }));
+        });
     },
 
     //////
@@ -384,14 +401,20 @@ var mainProcess = {
 
 var rendererProcess = {
 
-    init: function init(rendererRemoteMain, rendererIpc) {
-        console.log('render process init ', rendererRemoteMain, rendererIpc);
-
-        main222 = rendererRemoteMain;
+    init: function init(rendererIpc) {
         ipcRenderer = rendererIpc;
-        mainStoreObj = main222.getStore();
-        mainWindowListMap = main222.getWindowListMap();
+        ipcRenderer.send('getStore');
+        ipcRenderer.send('getWindowListMap');
         ipcRenderer.on('dataChanged', this.DataChanged);
+        ipcRenderer.on('getStoreReply', function (arg, arg2) {
+            console.log('getStoreReply accept', arg2);
+            mainStoreObj = arg2;
+        });
+        ipcRenderer.on('getWindowListMapReply', function (arg, arg2) {
+            console.log('getWindowListMapReply accept', arg2);
+            console.log('getStoreReply parse', JSON.parse(arg2));
+            mainWindowListMap = arg2;
+        });
     },
     DataChanged: function DataChanged(event, dataName) {
 
@@ -406,12 +429,12 @@ var rendererProcess = {
 };
 
 function getMainStoreObj() {
-    var mainStoreObj = ipcRenderer.sendSync('getStore');
 
     return mainStoreObj;
 }
 
 function getMainWindowListMap() {
+
     return mainWindowListMap;
 }
 

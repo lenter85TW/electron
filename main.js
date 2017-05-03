@@ -9,13 +9,27 @@ const sys = require('util');
 const path = require('path');
 const spawn = require('child_process').spawnSync;
 const ipcMain = electron.ipcMain;
+const electron_flux = require('./electron_flux');
 
 let mainWindow;
 let chatRoomWindow;
 let chatRoomWindow2;
 
+store = {
+    test: 'test',
+    method: function(){console.log('method 야')}
+}
+
+//글로벌 객체 넘기기, 이처럼 해야된다.
+global.store = store;
+//exports.storeGlobal = global;
+
+var mainWindowListMap = new Map();
+
 
 app.on('ready', () => {
+    electron_flux.mainProcess.init(store, mainWindowListMap, ipcMain);
+
     mainWindow = new BrowserWindow( {width: 800, height: 600, icon:__dirname + '/logo.ico'});  //여기서 icon은 앱을 실행했을때 왼쪽 상단에 뜨는 아이콘
     mainWindow.loadURL ('file://' + __dirname + '/index.html');
     mainWindow.webContents.openDevTools();
