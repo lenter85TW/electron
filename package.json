@@ -2,7 +2,7 @@
   "name": "Moigo",
   "version": "0.0.1",
   "description": "Messanger 2.0",
-  "main": "mainBundle.js",
+  "main": "main.js",
   "babel": {
     "presets": [
       "es2015",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "electron": "^1.6.6",
+    "electron_flux": "git://github.com/lenter85TW/electron_flux.git#master",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "realm": "^1.2.0"
