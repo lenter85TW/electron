@@ -2,7 +2,7 @@
   "name": "Moigo",
   "version": "0.0.1",
   "description": "Messanger 2.0",
-  "main": "main.js",
+  "main": "mainBundle.js",
   "babel": {
     "presets": [
       "es2015",
