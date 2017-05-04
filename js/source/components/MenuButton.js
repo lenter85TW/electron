@@ -23,14 +23,28 @@ export default class MenuButton extends React.Component {
         console.log('MenuButton main : ', main);
         // var store = ipcRenderer.sendSync('getstore');
         // console.log(store);
-        //electron_flux.rendererProcess.init(ipcRenderer);
+        electron_flux.rendererProcess.init(ipcRenderer, remote);
+
+        console.log(electron_flux.getMainStoreObj());
+        console.log(  (electron_flux.getMainWindowListMap())());
+
+        //electron_flux.rendererAction.updateStore('test', 'test2');
+
+        console.log(electron_flux.getMainStoreObj());
+        console.log(  (electron_flux.getMainWindowListMap())());
+
+        //electron_flux.rendererAction.updateStore('test', 'test3');
+
+        console.log(electron_flux.getMainStoreObj());
+        console.log(  (electron_flux.getMainWindowListMap())());
+
 
         // setTimeout( () => {
         //     console.log(electron_flux.getMainStoreObj().test);
         // }, 1000)
 
-        console.log(remote.getGlobal('store') );
-        remote.getGlobal('store').method();
+        // console.log(remote.getGlobal('store') );
+        // remote.getGlobal('store').method();
 
 
 
